@@ -51,11 +51,13 @@ jobs:
                 { "name": "Branch", "value": $branch, "inline": true },
                 { "name": "Triggered By", "value": $actor, "inline": true },
                 { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false }
-                ] + (if $pr_title != "null" then [
+              ] + 
+              (if $pr_title != "null" then [
                 { "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false }
-                ] else [] end) + (if $issue_title != "null" then [
+              ] else []) + 
+              (if $issue_title != "null" then [
                 { "name": "Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }
-                ] else [] end),
+              ] else []),
               "footer": {
                 "text": "GitHub Actions",
                 "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
