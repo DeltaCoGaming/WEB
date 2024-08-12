@@ -1,6 +1,7 @@
 // app/components/Navbar.tsx
 
 'use client';
+'use client';
 import React, { useState } from 'react';
 import { Gamepad2, Menu, X, Search, Bell, Play, Github, Globe, Users, Shield, PieChart, LogIn, Swords, Skull, Blocks, MoreHorizontal, MessageSquare, Calendar, Trophy, Users2, Activity, FileText, Lock, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,37 +23,37 @@ const menuItems = [
     title: "Games",
     icon: Swords,
     items: [
-      { name: "Arma 3", icon: Globe },
-      { name: "Project Zomboid", icon: Skull },
-      { name: "Minecraft", icon: Blocks },
-      { name: "More ...", icon: MoreHorizontal }
+      { name: "Arma 3", icon: Globe, href: "/arma3" },
+      { name: "Project Zomboid", icon: Skull, href: "/projectzomboid" },
+      { name: "Minecraft", icon: Blocks, href: "/minecraft" },
+      { name: "More ...", icon: MoreHorizontal, href: "#" }
     ]
   },
   {
     title: "Community",
     icon: Users,
     items: [
-      { name: "Forums", icon: MessageSquare },
-      { name: "Events", icon: Calendar },
-      { name: "Leaderboards", icon: Trophy },
-      { name: "Guilds", icon: Users2 }
+      { name: "Forums", icon: MessageSquare, href: "/forums" },
+      { name: "Events", icon: Calendar, href: "/events" },
+      { name: "Leaderboards", icon: Trophy, href: "/leaderboards" },
+      { name: "Partners", icon: Users2, href: "/delta/partners" }
     ]
   },
   {
     title: "Other",
     icon: MoreHorizontal,
     items: [
-      { name: "Status", icon: Activity },
-      { name: "Terms of Service", icon: FileText },
-      { name: "Privacy Policy", icon: Lock },
-      { name: "More", icon: Info }
+      { name: "Status", icon: Activity, href: "/delta/status" },
+      { name: "Terms of Service", icon: FileText, href: "/tos" },
+      { name: "Privacy Policy", icon: Lock, href: "/privacy" },
+      { name: "More", icon: Info, href: "/more" }
     ]
   },
   {
     title: "Dashboard",
     icon: PieChart,
     items: [
-      { name: "Login", icon: LogIn }
+      { name: "Login", icon: LogIn, href: "/login" }
     ]
   }
 ];
@@ -135,13 +136,14 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#2c2c2c] border-[#3a3a3a]">
                 {item.items.map((subItem, subIndex) => (
-                  <DropdownMenuItem 
-                    key={subIndex}
-                    className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer flex items-center space-x-2"
-                  >
-                    <subItem.icon className="h-4 w-4" />
-                    <span>{subItem.name}</span>
-                  </DropdownMenuItem>
+                  <a href={subItem.href} key={subIndex}>
+                    <DropdownMenuItem 
+                      className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer flex items-center space-x-2"
+                    >
+                      <subItem.icon className="h-4 w-4" />
+                      <span>{subItem.name}</span>
+                    </DropdownMenuItem>
+                  </a>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -254,14 +256,15 @@ const Navbar = () => {
                         <AccordionContent>
                           <ul>
                             {item.items.map((subItem, subIndex) => (
-                              <motion.li
-                                key={subIndex}
-                                variants={itemVariants}
-                                className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer py-2 px-6 flex items-center space-x-2"
-                              >
-                                <subItem.icon className="h-4 w-4" />
-                                <span>{subItem.name}</span>
-                              </motion.li>
+                              <a href={subItem.href} key={subIndex}>
+                                <motion.li
+                                  variants={itemVariants}
+                                  className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer py-2 px-6 flex items-center space-x-2"
+                                >
+                                  <subItem.icon className="h-4 w-4" />
+                                  <span>{subItem.name}</span>
+                                </motion.li>
+                              </a>
                             ))}
                           </ul>
                         </AccordionContent>

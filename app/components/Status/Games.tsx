@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { Server, Users, Signal, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Skeleton } from "@/components/ui/skeleton"
 
 const gameConfigs = {
   arma3: {
@@ -43,6 +44,25 @@ const ServerCard = ({ server, gameIcon }) => (
   </motion.div>
 );
 
+const SkeletonServerCard = () => (
+  <div className="bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg border border-[#d6c8a6] p-6">
+    <div className="flex items-center mb-4">
+      <Skeleton className="w-6 h-6 mr-2 bg-[#2a2a2a]" />
+      <Skeleton className="h-6 w-3/4 bg-[#2a2a2a]" />
+    </div>
+    <div className="flex justify-between items-center">
+      <div className="flex items-center">
+        <Skeleton className="w-4 h-4 mr-2 bg-[#2a2a2a]" />
+        <Skeleton className="h-4 w-16 bg-[#2a2a2a]" />
+      </div>
+      <div className="flex items-center">
+        <Skeleton className="w-4 h-4 mr-2 bg-[#2a2a2a]" />
+        <Skeleton className="h-4 w-8 bg-[#2a2a2a]" />
+      </div>
+    </div>
+  </div>
+);
+
 const GameServersStatus = () => {
   const [servers, setServers] = useState({});
   const [loading, setLoading] = useState(true);
@@ -79,9 +99,6 @@ const GameServersStatus = () => {
     return acc;
   }, {});
 
-  if (loading) return <div className="text-white text-center">Loading...</div>;
-  if (error) return <div className="text-red-500 text-center">Error: {error}</div>;
-
   return (
     <div className="bg-black text-white py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -103,16 +120,26 @@ const GameServersStatus = () => {
           />
           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#d6c8a6]" />
         </div>
-        {Object.entries(filteredServers).map(([game, gameServers]) => (
-          <div key={game}>
-            <h3 className="text-3xl font-bold mb-8 text-[#d6c8a6]">{gameConfigs[game].name}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {gameServers.map((server, index) => (
-                <ServerCard key={index} server={server} gameIcon={gameConfigs[game].icon} />
-              ))}
-            </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {[...Array(6)].map((_, index) => (
+              <SkeletonServerCard key={index} />
+            ))}
           </div>
-        ))}
+        ) : error ? (
+          <div className="text-red-500 text-center">Error: {error}</div>
+        ) : (
+          Object.entries(filteredServers).map(([game, gameServers]) => (
+            <div key={game}>
+              <h3 className="text-3xl font-bold mb-8 text-[#d6c8a6]">{gameConfigs[game].name}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                {gameServers.map((server, index) => (
+                  <ServerCard key={index} server={server} gameIcon={gameConfigs[game].icon} />
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
