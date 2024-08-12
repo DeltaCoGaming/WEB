@@ -1,9 +1,8 @@
 // app/components/Navbar.tsx
 
 'use client';
-
 import React, { useState } from 'react';
-import { Gamepad2, Menu, X, Search, Bell, Play, Github } from 'lucide-react';
+import { Gamepad2, Menu, X, Search, Bell, Play, Github, Globe, Users, Shield, PieChart, LogIn, Swords, Skull, Blocks, MoreHorizontal, MessageSquare, Calendar, Trophy, Users2, Activity, FileText, Lock, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   DropdownMenu,
@@ -21,19 +20,40 @@ import {
 const menuItems = [
   {
     title: "Games",
-    items: ["Arma 3", "Project Zomboid", "Minecraft", "More ..."]
+    icon: Swords,
+    items: [
+      { name: "Arma 3", icon: Globe },
+      { name: "Project Zomboid", icon: Skull },
+      { name: "Minecraft", icon: Blocks },
+      { name: "More ...", icon: MoreHorizontal }
+    ]
   },
   {
     title: "Community",
-    items: ["Forums", "Events", "Leaderboards", "Guilds"]
+    icon: Users,
+    items: [
+      { name: "Forums", icon: MessageSquare },
+      { name: "Events", icon: Calendar },
+      { name: "Leaderboards", icon: Trophy },
+      { name: "Guilds", icon: Users2 }
+    ]
   },
   {
     title: "Other",
-    items: ["Status", "Terms of Service", "Privacy Policy", "More"]
+    icon: MoreHorizontal,
+    items: [
+      { name: "Status", icon: Activity },
+      { name: "Terms of Service", icon: FileText },
+      { name: "Privacy Policy", icon: Lock },
+      { name: "More", icon: Info }
+    ]
   },
   {
     title: "Dashboard",
-    items: ["Login"]
+    icon: PieChart,
+    items: [
+      { name: "Login", icon: LogIn }
+    ]
   }
 ];
 
@@ -52,7 +72,7 @@ const Navbar = () => {
 
   const handleSearchSubmit = () => {
     console.log('Search for:', searchQuery);
-    // Implement your search logic here (e.g., filtering, navigation)
+    // Implement your search logic here
   };
 
   const menuVariants = {
@@ -109,16 +129,18 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-4">
           {menuItems.map((item, index) => (
             <DropdownMenu key={index}>
-              <DropdownMenuTrigger className="text-white hover:text-[#d6c8a6] transition-colors duration-200 bg-transparent focus:outline-none">
-                {item.title}
+              <DropdownMenuTrigger className="text-white hover:text-[#d6c8a6] transition-colors duration-200 bg-transparent focus:outline-none flex items-center space-x-1">
+                <item.icon className="h-4 w-4" />
+                <span>{item.title}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#2c2c2c] border-[#3a3a3a]">
                 {item.items.map((subItem, subIndex) => (
                   <DropdownMenuItem 
                     key={subIndex}
-                    className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer"
+                    className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer flex items-center space-x-2"
                   >
-                    {subItem}
+                    <subItem.icon className="h-4 w-4" />
+                    <span>{subItem.name}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -225,8 +247,9 @@ const Navbar = () => {
                   {menuItems.map((item, index) => (
                     <motion.div key={index} variants={itemVariants}>
                       <AccordionItem value={`item-${index}`}>
-                        <AccordionTrigger className="text-white hover:text-[#d6c8a6] transition-colors duration-200 px-4 py-2">
-                          {item.title}
+                        <AccordionTrigger className="text-white hover:text-[#d6c8a6] transition-colors duration-200 px-4 py-2 flex items-center space-x-2">
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.title}</span>
                         </AccordionTrigger>
                         <AccordionContent>
                           <ul>
@@ -234,9 +257,10 @@ const Navbar = () => {
                               <motion.li
                                 key={subIndex}
                                 variants={itemVariants}
-                                className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer py-2 px-6"
+                                className="text-white hover:text-[#d6c8a6] hover:bg-[#3a3a3a] cursor-pointer py-2 px-6 flex items-center space-x-2"
                               >
-                                {subItem}
+                                <subItem.icon className="h-4 w-4" />
+                                <span>{subItem.name}</span>
                               </motion.li>
                             ))}
                           </ul>
