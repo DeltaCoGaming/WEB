@@ -29,41 +29,42 @@ jobs:
           ISSUE_URL="${{ github.event.issue.html_url }}"
           AVATAR_URL="https://avatars.githubusercontent.com/${{ github.actor }}"
 
+          # Build the fields array conditionally
+          FIELDS=$(jq -n --arg repo_name "$REPO_NAME" \
+                            --arg branch "$BRANCH_NAME" \
+                            --arg actor "$ACTOR" \
+                            --arg commit_message "$COMMIT_MESSAGE" \
+                            --arg commit_url "$COMMIT_URL" \
+                            --arg pr_title "$PR_TITLE" \
+                            --arg pr_url "$PR_URL" \
+                            --arg issue_title "$ISSUE_TITLE" \
+                            --arg issue_url "$ISSUE_URL" \
+                            '[
+                              { "name": "Repository", "value": $repo_name, "inline": true },
+                              { "name": "Branch", "value": $branch, "inline": true },
+                              { "name": "Triggered By", "value": $actor, "inline": true },
+                              { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false }
+                            ] 
+                            + (if $pr_title != "" then [{ "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false }] else [] end)
+                            + (if $issue_title != "" then [{ "name": "Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }] else [] end)')
+
+          # Construct the full embed payload
           EMBED=$(jq -n --arg event_type "$EVENT_TYPE" \
-                           --arg repo_name "$REPO_NAME" \
-                           --arg branch "$BRANCH_NAME" \
-                           --arg actor "$ACTOR" \
-                           --arg commit_message "$COMMIT_MESSAGE" \
-                           --arg commit_url "$COMMIT_URL" \
-                           --arg pr_title "$PR_TITLE" \
-                           --arg pr_url "$PR_URL" \
-                           --arg issue_title "$ISSUE_TITLE" \
-                           --arg issue_url "$ISSUE_URL" \
-                           --arg avatar_url "$AVATAR_URL" \
-          '{
-            "username": "GitHub Bot",
-            "avatar_url": $avatar_url,
-            "embeds": [{
-              "title": "GitHub Event: \($event_type)",
-              "color": 3447003,
-              "fields": [
-                { "name": "Repository", "value": $repo_name, "inline": true },
-                { "name": "Branch", "value": $branch, "inline": true },
-                { "name": "Triggered By", "value": $actor, "inline": true },
-                { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false }
-              ] 
-              + (if $pr_title != "" then [
-                { "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false }
-              ] else [] end)
-              + (if $issue_title != "" then [
-                { "name": "Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }
-              ] else [] end),
-              "footer": {
-                "text": "GitHub Actions",
-                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-              },
-              "timestamp": (now | strflocaltime("%Y-%m-%dT%H:%M:%SZ"))
-            }]
-          }')
+                            --arg avatar_url "$AVATAR_URL" \
+                            --argjson fields "$FIELDS" \
+                            '{
+                              "username": "GitHub Bot",
+                              "avatar_url": $avatar_url,
+                              "embeds": [{
+                                "title": "GitHub Event: \($event_type)",
+                                "color": 3447003,
+                                "fields": $fields,
+                                "footer": {
+                                  "text": "GitHub Actions",
+                                  "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                                },
+                                "timestamp": (now | strflocaltime("%Y-%m-%dT%H:%M:%SZ"))
+                              }]
+                            }')
 
           curl -H "Content-Type: application/json" -X POST -d "$EMBED" $DISCORD_WEBHOOK_URL
