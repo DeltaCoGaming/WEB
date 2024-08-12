@@ -12,11 +12,14 @@ on:
 jobs:
   notify-discord:
     runs-on: ubuntu-latest
+
     steps:
       - name: Send Discord Notification
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        
         run: |
+          # Extract relevant GitHub context variables
           EVENT_TYPE="${{ github.event_name }}"
           REPO_NAME="${{ github.repository }}"
           BRANCH_NAME="${{ github.ref_name }}"
@@ -29,7 +32,7 @@ jobs:
           ISSUE_URL="${{ github.event.issue.html_url }}"
           AVATAR_URL="https://avatars.githubusercontent.com/${{ github.actor }}"
 
-          # Build the fields array conditionally
+          # Construct the fields array conditionally based on the event type
           FIELDS=$(jq -n --arg repo_name "$REPO_NAME" \
                             --arg branch "$BRANCH_NAME" \
                             --arg actor "$ACTOR" \
@@ -40,15 +43,15 @@ jobs:
                             --arg issue_title "$ISSUE_TITLE" \
                             --arg issue_url "$ISSUE_URL" \
                             '[
-                              { "name": "Repository", "value": $repo_name, "inline": true },
-                              { "name": "Branch", "value": $branch, "inline": true },
-                              { "name": "Triggered By", "value": $actor, "inline": true },
-                              { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false }
+                              { "name": "📂 Repository", "value": $repo_name, "inline": true },
+                              { "name": "🌲 Branch", "value": $branch, "inline": true },
+                              { "name": "👤 Triggered By", "value": $actor, "inline": true },
+                              { "name": "📝 Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false }
                             ] 
-                            + (if $pr_title != "" then [{ "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false }] else [] end)
-                            + (if $issue_title != "" then [{ "name": "Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }] else [] end)')
+                            + (if $pr_title != "" then [{ "name": "🔀 Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false }] else [] end)
+                            + (if $issue_title != "" then [{ "name": "❗ Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }] else [] end)')
 
-          # Construct the full embed payload
+          # Build the full embed payload to be sent to Discord
           EMBED=$(jq -n --arg event_type "$EVENT_TYPE" \
                             --arg avatar_url "$AVATAR_URL" \
                             --argjson fields "$FIELDS" \
@@ -56,7 +59,7 @@ jobs:
                               "username": "GitHub Bot",
                               "avatar_url": $avatar_url,
                               "embeds": [{
-                                "title": "GitHub Event: \($event_type)",
+                                "title": "📢 GitHub Event: \($event_type)",
                                 "color": 3447003,
                                 "fields": $fields,
                                 "footer": {
@@ -67,4 +70,5 @@ jobs:
                               }]
                             }')
 
+          # Send the constructed embed to Discord
           curl -H "Content-Type: application/json" -X POST -d "$EMBED" $DISCORD_WEBHOOK_URL
