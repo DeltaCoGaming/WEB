@@ -35,10 +35,10 @@ jobs:
                            --arg actor "$ACTOR" \
                            --arg commit_message "$COMMIT_MESSAGE" \
                            --arg commit_url "$COMMIT_URL" \
-                           --arg pr_title "$PR_TITLE" \
-                           --arg pr_url "$PR_URL" \
-                           --arg issue_title "$ISSUE_TITLE" \
-                           --arg issue_url "$ISSUE_URL" \
+                           --arg pr_title "${PR_TITLE:-null}" \
+                           --arg pr_url "${PR_URL:-null}" \
+                           --arg issue_title "${ISSUE_TITLE:-null}" \
+                           --arg issue_url "${ISSUE_URL:-null}" \
                            --arg avatar_url "$AVATAR_URL" \
           '{
             "username": "GitHub Bot",
@@ -50,10 +50,12 @@ jobs:
                 { "name": "Repository", "value": $repo_name, "inline": true },
                 { "name": "Branch", "value": $branch, "inline": true },
                 { "name": "Triggered By", "value": $actor, "inline": true },
-                { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false },
-                { "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false },
+                { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false }
+                ] + (if $pr_title != "null" then [
+                { "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false }
+                ] else [] end) + (if $issue_title != "null" then [
                 { "name": "Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }
-              ],
+                ] else [] end),
               "footer": {
                 "text": "GitHub Actions",
                 "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
