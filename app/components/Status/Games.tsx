@@ -11,6 +11,10 @@ const gameConfigs = {
     name: "Arma 3",
     endpoint: "/v2/battlemetrics/arma3/servers",
   },
+  projectzomboid: {
+    name: "Project Zomboid",
+    endpoint: "/v2/battlemetrics/projectzomboid/servers",
+  }
   // Add more games here in the future
 };
 
