@@ -33,7 +33,6 @@ jobs:
                 "description": "Event Type: \($event_type)",
                 "color": 15258703,
                 "author": {
-                  "name": $username,
                   "icon_url": $avatar_url
                 },
                 "fields": [
