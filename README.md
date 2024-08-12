@@ -4,10 +4,10 @@
 
 Welcome to the **Delta Co Gaming** repository! This repository houses the source code for the Delta Co Gaming community website and related services.
 
-![GitHub stars](https://img.shields.io/github/stars/your-repo/delta-co-gaming?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/your-repo/delta-co-gaming?style=for-the-badge)
-![GitHub issues](https://img.shields.io/github/issues/your-repo/delta-co-gaming?style=for-the-badge)
-![GitHub license](https://img.shields.io/github/license/your-repo/delta-co-gaming?style=for-the-badge)
+![GitHub stars](https://img.shields.io/github/stars/DeltaCoGaming/WEB?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/DeltaCoGaming/WEB?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/DeltaCoGaming/WEB?style=for-the-badge)
+![GitHub license](https://img.shields.io/github/license/DeltaCoGaming/WEB?style=for-the-badge)
 
 ## About Delta Co Gaming
 
@@ -25,18 +25,18 @@ This repository contains the following key components:
 
 ## Repository Stats
 
-![Repository Stats](https://github-readme-stats.vercel.app/api?username=your-username&repo=delta-co-gaming&show_icons=true&theme=radical)
+![Organization's GitHub Stats](https://github-readme-stats.vercel.app/api?username=DeltaCoGaming&include_orgs=true&show_icons=true&theme=radical)
 
 ## Technology Stack
 
-![Technology Stack](https://skillicons.dev/icons?i=nextjs,react,tailwind,supabase)
+![Technology Stack](https://skillicons.dev/icons?i=nextjs,react,tailwind,supabase,vercel)
 
 ## Community Contributions
 
 We welcome contributions from the community to help improve and expand our platform. If you'd like to contribute, please fork the repository, create a feature branch, and submit a pull request.
 
-[![Forks](https://img.shields.io/github/forks/your-repo/delta-co-gaming?style=social)](https://github.com/your-repo/delta-co-gaming/fork)
-[![Pull Requests](https://img.shields.io/github/issues-pr/your-repo/delta-co-gaming?style=social)](https://github.com/your-repo/delta-co-gaming/pulls)
+[![Forks](https://img.shields.io/github/forks/DeltaCoGaming/WEB?style=social)](https://github.com/DeltaCoGaming/WEB/fork)
+[![Pull Requests](https://img.shields.io/github/issues-pr/DeltaCoGaming/WEB?style=social)](https://github.com/DeltaCoGaming/WEB/pulls)
 
 ## License
 
