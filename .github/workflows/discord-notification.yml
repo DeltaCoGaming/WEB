@@ -48,7 +48,7 @@ jobs:
               "color": 3447003,
               "fields": [
                 { "name": "Repository", "value": $repo_name, "inline": true },
-                { "name": "Branch", "value": $branch_name, "inline": true },
+                { "name": "Branch", "value": $branch, "inline": true },
                 { "name": "Triggered By", "value": $actor, "inline": true },
                 { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false },
                 { "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false },
