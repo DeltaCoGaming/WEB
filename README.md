@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Delta Co Gaming Repository
 
-## Getting Started
+![Delta Co Gaming](https://your-image-link.com/logo.png)
 
-First, run the development server:
+Welcome to the **Delta Co Gaming** repository! This repository houses the source code for the Delta Co Gaming community website and related services.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![GitHub stars](https://img.shields.io/github/stars/your-repo/delta-co-gaming?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/your-repo/delta-co-gaming?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/your-repo/delta-co-gaming?style=for-the-badge)
+![GitHub license](https://img.shields.io/github/license/your-repo/delta-co-gaming?style=for-the-badge)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## About Delta Co Gaming
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Delta Co Gaming, formerly Bravo Company, is a diverse gaming community with a strong focus on Arma 3 and various other games. Our community is dedicated to providing a welcoming atmosphere, exciting gameplay, and custom game modes that enhance the gaming experience for all members.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Repository Overview
 
-## Learn More
+This repository contains the following key components:
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Built with Next.js, React, Shadcn UI Components, and Tailwind CSS.
+- **Backend**: Besides using Auth.js - Most of the backend will be supported by two APIs: one built within the backend folder and one offsite private API.
+- **Database**: We use Supabase for our database and authentication.
+- **CI/CD**: For CI, we use CircleCI for webhooks, and Coolify for Deployment.
+- **Infrastructure**: We use IONOS VMs for Infrastructure.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Repository Stats
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![Repository Stats](https://github-readme-stats.vercel.app/api?username=your-username&repo=delta-co-gaming&show_icons=true&theme=radical)
 
-## Deploy on Vercel
+## Technology Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Technology Stack](https://skillicons.dev/icons?i=nextjs,react,tailwind,supabase)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Community Contributions
+
+We welcome contributions from the community to help improve and expand our platform. If you'd like to contribute, please fork the repository, create a feature branch, and submit a pull request.
+
+[![Forks](https://img.shields.io/github/forks/your-repo/delta-co-gaming?style=social)](https://github.com/your-repo/delta-co-gaming/fork)
+[![Pull Requests](https://img.shields.io/github/issues-pr/your-repo/delta-co-gaming?style=social)](https://github.com/your-repo/delta-co-gaming/pulls)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact Us
+
+If you have any questions, suggestions, or need support, feel free to reach out:
+
+- **Email**: [contact@deltacogaming.win](mailto:contact@deltacogaming.win)
+- **Discord**: Join our community on [Discord](https://discord.gg/your-discord-link) for the latest updates and discussions.
+
+[![Discord](https://img.shields.io/discord/your-discord-id?label=Join%20Our%20Discord&logo=discord&style=for-the-badge)](https://discord.gg/your-discord-link)
+
+Thank you for being a part of the Delta Co Gaming community!
