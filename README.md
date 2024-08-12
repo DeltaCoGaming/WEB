@@ -25,7 +25,7 @@ This repository contains the following key components:
 
 ## Repository Stats
 
-![Organization's GitHub Stats](https://github-readme-stats.vercel.app/api?username=DeltaCoGaming&include_orgs=true&show_icons=true&theme=radical)
+![Alt](https://repobeats.axiom.co/api/embed/f83c2da5f9dc175c73959fd887f27122e84e5463.svg "Repobeats analytics image")
 
 ## Technology Stack
 
