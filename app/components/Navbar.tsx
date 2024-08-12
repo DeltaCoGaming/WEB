@@ -21,15 +21,19 @@ import {
 const menuItems = [
   {
     title: "Games",
-    items: ["Action", "Strategy", "RPG", "Simulation"]
+    items: ["Arma 3", "Project Zomboid", "Minecraft", "More ..."]
   },
   {
     title: "Community",
     items: ["Forums", "Events", "Leaderboards", "Guilds"]
   },
   {
+    title: "Other",
+    items: ["Status", "Terms of Service", "Privacy Policy", "More"]
+  },
+  {
     title: "Dashboard",
-    items: ["Login", "Register", "Dashboard", "Logout"]
+    items: ["Login"]
   }
 ];
 
