@@ -19,61 +19,58 @@ jobs:
       - run:
           name: "Send Discord Notification"
           command: |
-            curl -H "Content-Type: application/json" \
-            -d '{
-                  "username": "Delta Updates",
-                  "embeds": [{
-                    "title": "New Pipeline Execution",
-                    "description": "Event Type: $CIRCLE_EVENT_TYPE",
-                    "color": 15258703,
-                    "fields": [
-                      {
-                        "name": "Repository",
-                        "value": "$CIRCLE_PROJECT_REPONAME",
-                        "inline": true
-                      },
-                      {
-                        "name": "Branch",
-                        "value": "$CIRCLE_BRANCH",
-                        "inline": true
-                      },
-                      {
-                        "name": "Triggered By",
-                        "value": "$CIRCLE_USERNAME",
-                        "inline": true
-                      },
-                      {
-                        "name": "Commit",
-                        "value": "$CIRCLE_SHA1",
-                        "inline": false
-                      },
-                      {
-                        "name": "Job Name",
-                        "value": "$CIRCLE_JOB",
-                        "inline": false
-                      },
-                      {
-                        "name": "Job Status",
-                        "value": "$CIRCLE_JOB_STATUS",
-                        "inline": false
-                      }
-                    ],
-                    "footer": {
-                      "text": "Delta Notifications",
-                      "icon_url": "https://avatars.githubusercontent.com/u/12371220?s=280&v=4"
-                    },
-                    "timestamp": "'"$(date --utc +%Y-%m-%dT%H:%M:%SZ)"'"
-                  }]
-                }' \
-            https://discord.com/api/webhooks/1264668920552489102/MqcqPVMqSGLzA9WX0vNpohv2Hdy7011DDBmDdox3h_RZAAv0OCVKHpCTUGbA5FkH4Qxx
+            WEBHOOK_URL="https://discord.com/api/webhooks/1218571741941727284/m44ocOuvb5FDHdoAieJwUmwUZ-iCH2J3yBFa6yuqtsFjEBDI9cOzzZfBNj5Gf0sFugn1"
+            COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+            COMMIT_SHA=$(git rev-parse --short HEAD)
+            AUTHOR_NAME=$(git log -1 --pretty=%an)
+            COMMIT_URL="https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/commit/$COMMIT_SHA"
+            AVATAR_URL="https://avatars.githubusercontent.com/${CIRCLE_PROJECT_USERNAME}"
+
+            EMBED=$(jq -n --arg event_type "$CIRCLE_EVENT_TYPE" \
+                             --arg repo_name "$CIRCLE_PROJECT_REPONAME" \
+                             --arg branch "$CIRCLE_BRANCH" \
+                             --arg username "$CIRCLE_USERNAME" \
+                             --arg commit "$COMMIT_SHA" \
+                             --arg commit_url "$COMMIT_URL" \
+                             --arg commit_message "$COMMIT_MESSAGE" \
+                             --arg job_name "$CIRCLE_JOB" \
+                             --arg job_status "$CIRCLE_JOB_STATUS" \
+                             --arg avatar_url "$AVATAR_URL" \
+            '{
+              "username": "Delta Updates",
+              "embeds": [{
+                "title": "New Pipeline Execution",
+                "description": "Event Type: \($event_type)",
+                "color": 15258703,
+                "author": {
+                  "name": $username,
+                  "icon_url": $avatar_url
+                },
+                "fields": [
+                  { "name": "Repository", "value": $repo_name, "inline": true },
+                  { "name": "Branch", "value": $branch, "inline": true },
+                  { "name": "Triggered By", "value": $username, "inline": true },
+                  { "name": "Commit", "value": ("[`" + $commit + "`](" + $commit_url + ")"), "inline": false },
+                  { "name": "Commit Message", "value": $commit_message, "inline": false },
+                  { "name": "Job Name", "value": $job_name, "inline": false },
+                  { "name": "Job Status", "value": $job_status, "inline": false }
+                ],
+                "footer": {
+                  "text": "Delta Notifications",
+                  "icon_url": "https://avatars.githubusercontent.com/u/12371220?s=280&v=4"
+                },
+                "timestamp": (now | strflocaltime("%Y-%m-%dT%H:%M:%SZ"))
+              }]
+            }')
+
+            curl -H "Content-Type: application/json" -X POST -d "$EMBED" $WEBHOOK_URL
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   notify:
     jobs:
-      - notify-discord:
+      - notify-discord
           filters:
             branches:
               ignore: []
-
