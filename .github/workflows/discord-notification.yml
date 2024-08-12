@@ -1,0 +1,65 @@
+name: Discord Notifications
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, closed, reopened, synchronize]
+  issues:
+    types: [opened, closed, reopened]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Notification
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          EVENT_TYPE="${{ github.event_name }}"
+          REPO_NAME="${{ github.repository }}"
+          BRANCH_NAME="${{ github.ref_name }}"
+          ACTOR="${{ github.actor }}"
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          COMMIT_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          ISSUE_TITLE="${{ github.event.issue.title }}"
+          ISSUE_URL="${{ github.event.issue.html_url }}"
+          AVATAR_URL="https://avatars.githubusercontent.com/${{ github.actor }}"
+
+          EMBED=$(jq -n --arg event_type "$EVENT_TYPE" \
+                           --arg repo_name "$REPO_NAME" \
+                           --arg branch "$BRANCH_NAME" \
+                           --arg actor "$ACTOR" \
+                           --arg commit_message "$COMMIT_MESSAGE" \
+                           --arg commit_url "$COMMIT_URL" \
+                           --arg pr_title "$PR_TITLE" \
+                           --arg pr_url "$PR_URL" \
+                           --arg issue_title "$ISSUE_TITLE" \
+                           --arg issue_url "$ISSUE_URL" \
+                           --arg avatar_url "$AVATAR_URL" \
+          '{
+            "username": "GitHub Bot",
+            "avatar_url": $avatar_url,
+            "embeds": [{
+              "title": "GitHub Event: \($event_type)",
+              "color": 3447003,
+              "fields": [
+                { "name": "Repository", "value": $repo_name, "inline": true },
+                { "name": "Branch", "value": $branch_name, "inline": true },
+                { "name": "Triggered By", "value": $actor, "inline": true },
+                { "name": "Commit", "value": ("[`" + $commit_message + "`](" + $commit_url + ")"), "inline": false },
+                { "name": "Pull Request", "value": ("[`" + $pr_title + "`](" + $pr_url + ")"), "inline": false },
+                { "name": "Issue", "value": ("[`" + $issue_title + "`](" + $issue_url + ")"), "inline": false }
+              ],
+              "footer": {
+                "text": "GitHub Actions",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "timestamp": (now | strflocaltime("%Y-%m-%dT%H:%M:%SZ"))
+            }]
+          }')
+
+          curl -H "Content-Type: application/json" -X POST -d "$EMBED" $DISCORD_WEBHOOK_URL
