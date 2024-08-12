@@ -20,7 +20,51 @@ jobs:
           name: "Send Discord Notification"
           command: |
             curl -H "Content-Type: application/json" \
-            -d "{\"username\": \"CircleCI Bot\", \"content\": \"New event: $CIRCLE_JOB on $CIRCLE_BRANCH by $CIRCLE_USERNAME\"}" \
+            -d '{
+                  "username": "Delta Updates",
+                  "embeds": [{
+                    "title": "New Pipeline Execution",
+                    "description": "Event Type: $CIRCLE_EVENT_TYPE",
+                    "color": 15258703,
+                    "fields": [
+                      {
+                        "name": "Repository",
+                        "value": "$CIRCLE_PROJECT_REPONAME",
+                        "inline": true
+                      },
+                      {
+                        "name": "Branch",
+                        "value": "$CIRCLE_BRANCH",
+                        "inline": true
+                      },
+                      {
+                        "name": "Triggered By",
+                        "value": "$CIRCLE_USERNAME",
+                        "inline": true
+                      },
+                      {
+                        "name": "Commit",
+                        "value": "$CIRCLE_SHA1",
+                        "inline": false
+                      },
+                      {
+                        "name": "Job Name",
+                        "value": "$CIRCLE_JOB",
+                        "inline": false
+                      },
+                      {
+                        "name": "Job Status",
+                        "value": "$CIRCLE_JOB_STATUS",
+                        "inline": false
+                      }
+                    ],
+                    "footer": {
+                      "text": "Delta Notifications",
+                      "icon_url": "https://avatars.githubusercontent.com/u/12371220?s=280&v=4"
+                    },
+                    "timestamp": "'"$(date --utc +%Y-%m-%dT%H:%M:%SZ)"'"
+                  }]
+                }' \
             https://discord.com/api/webhooks/1264668920552489102/MqcqPVMqSGLzA9WX0vNpohv2Hdy7011DDBmDdox3h_RZAAv0OCVKHpCTUGbA5FkH4Qxx
 
 # Orchestrate jobs using workflows
@@ -31,4 +75,5 @@ workflows:
       - notify-discord:
           filters:
             branches:
-              only: main
+              ignore: []
+
