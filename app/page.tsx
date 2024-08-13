@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Background from "./components/Background";
 import HeroSection from "./components/Hero";
 import WhatWeDo from "./components/WhatweDo";
+import ChatWidget from "./components/Chat/Widget"
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <WhatWeDo />
+      <ChatWidget />
       <Footer />
     </Background>
   );

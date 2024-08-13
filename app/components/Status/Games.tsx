@@ -29,7 +29,11 @@ const gameConfigs: GameConfigs = {
   projectzomboid: {
     name: "Project Zomboid",
     endpoint: "/v2/battlemetrics/projectzomboid/servers",
-  }
+  },
+  minecraft: {
+    name: "Minecraft",
+    endpoint: "/v2/battlemetrics/minecraft/servers",
+  },
   // Add more games here in the future
 };
 
