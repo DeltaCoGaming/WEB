@@ -10,13 +10,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { AlertTriangle, Shield, UserPlus, MessageSquare, Ban, FileText, List, Calendar, Info, ExternalLink } from 'lucide-react';
+import { AlertTriangle, Shield, UserPlus, MessageSquare, Ban, FileText, List, Calendar, Info } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 const tosItems = [
   {
@@ -82,10 +89,21 @@ const TableOfContents = ({ items, onItemClick }) => (
   </div>
 );
 
+const FullDocument = ({ items }) => (
+  <div className="space-y-6">
+    {items.map((item) => (
+      <div key={item.id}>
+        <h3 className="text-xl font-bold mb-2 text-[#d6c8a6]">{item.title}</h3>
+        <p>{item.content}</p>
+      </div>
+    ))}
+  </div>
+);
+
 const TermsOfService = () => {
   const [activeTab, setActiveTab] = useState("full");
   const [activeAccordionItem, setActiveAccordionItem] = useState(null);
-  const lastUpdated = "2024-08-12"; // You can update this dynamically
+  const lastUpdated = "2024-08-12";
 
   const handleTableOfContentsClick = (id) => {
     setActiveTab("full");
@@ -101,7 +119,7 @@ const TermsOfService = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Discord Server Terms of Service
+          Delta CO Terms of Service
         </motion.h2>
         <Card className="bg-[#1a1a1a] border-[#d6c8a6]">
           <CardHeader>
@@ -163,10 +181,22 @@ const TermsOfService = () => {
                     <Badge variant="outline" className="text-[#d6c8a6]">
                       Version 1.2
                     </Badge>
-                    <Button variant="outline" className="text-[#d6c8a6]">
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      View Full Document
-                    </Button>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" className="text-[#d6c8a6]">
+                          <FileText className="w-4 h-4 mr-2" />
+                          View Full Document
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-[#1a1a1a] text-white">
+                        <DialogHeader>
+                          <DialogTitle className="text-2xl font-bold text-[#d6c8a6]">Full Terms of Service</DialogTitle>
+                        </DialogHeader>
+                        <ScrollArea className="h-[60vh] pr-4">
+                          <FullDocument items={tosItems} />
+                        </ScrollArea>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </ScrollArea>
               </TabsContent>
