@@ -45,7 +45,7 @@ const menuItems = [
     items: [
       { name: "Status", icon: Activity, href: "/delta/status" },
       { name: "Terms of Service", icon: FileText, href: "/delta/tos" },
-      { name: "Privacy Policy", icon: Lock, href: "/privacy" },
+      { name: "Privacy Policy", icon: Lock, href: "/delta/privacy" },
       { name: "More", icon: Info, href: "/more" }
     ]
   },
