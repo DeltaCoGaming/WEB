@@ -19,7 +19,7 @@ const gameConfigs = {
   // Add more games here in the future
 };
 
-const ServerCard = ({ server, gameIcon }) => (
+const ServerCard = ({ server, gameIcon }: { server: any, gameIcon: any }) => (
   <motion.div 
     className="bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-[#d6c8a6] p-6"
     initial={{ opacity: 0, y: 20 }}
