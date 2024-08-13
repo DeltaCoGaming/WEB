@@ -1,6 +1,7 @@
 // app/components/Status/Infra.tsx
 
 'use client';
+'use client';
 import React, { useState, useEffect } from 'react';
 import { Activity, Clock, Server, HardDrive } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -26,9 +27,9 @@ const SkeletonStatusItem = () => (
 );
 
 const InfraStatus = () => {
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStatus = async () => {
@@ -38,7 +39,11 @@ const InfraStatus = () => {
         const data = await response.json();
         setStatus(data);
       } catch (err) {
-        setError(err.message);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred');
+        }
       } finally {
         setLoading(false);
       }
@@ -66,7 +71,7 @@ const InfraStatus = () => {
           </div>
         ) : error ? (
           <div className="text-red-500 text-center">Error: {error}</div>
-        ) : (
+        ) : status ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {statusItems.map((item, index) => (
@@ -110,6 +115,8 @@ const InfraStatus = () => {
               <p className="text-white">{new Date(status.timestamp).toLocaleString()}</p>
             </motion.div>
           </>
+        ) : (
+          <div className="text-white text-center">No status available.</div>
         )}
       </div>
     </div>
