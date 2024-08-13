@@ -1,15 +1,21 @@
-// app/components/Partners/Peeps.tsx
-
 'use client';
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Handshake } from 'lucide-react';
 
-const partners = [
+type Partner = {
+  name: string;
+  description: string;
+  avatar: string;
+  tags: string[];
+  discordUrl: string;
+};
+
+const partners: Partner[] = [
   {
     name: "ISRC",
     description: "Description of Partner 1",
@@ -26,7 +32,11 @@ const partners = [
   },
 ];
 
-const PartnerCard = ({ partner }) => (
+type PartnerCardProps = {
+  partner: Partner;
+};
+
+const PartnerCard: React.FC<PartnerCardProps> = ({ partner }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -65,7 +75,7 @@ const PartnerCard = ({ partner }) => (
   </motion.div>
 );
 
-const DiscordPartners = () => {
+const DiscordPartners: React.FC = () => {
   return (
     <div className="bg-black text-white py-24">
       <div className="max-w-7xl mx-auto px-6 md:px-12">

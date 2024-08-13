@@ -4,14 +4,14 @@
 
 import Navbar from "../../../components/Navbar";
 import Background from "../../../components/Background";
-import Project from "../../../components/Games/Project";
+import ProjectZomboidServers from "../../../components/Games/Project";
 import Footer from "../../../components/Footer";
 
 export default function Home() {
   return (
     <Background>
       <Navbar />
-        <Project />
+        <ProjectZomboidServers />
       <Footer />
     </Background>
   );
