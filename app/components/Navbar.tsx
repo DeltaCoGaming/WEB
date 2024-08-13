@@ -23,7 +23,7 @@ const menuItems = [
     title: "Games",
     icon: Swords,
     items: [
-      { name: "Arma 3", icon: Globe, href: "/arma3" },
+      { name: "Arma 3", icon: Globe, href: "/delta/games/arma3" },
       { name: "Project Zomboid", icon: Skull, href: "/projectzomboid" },
       { name: "Minecraft", icon: Blocks, href: "/minecraft" },
       { name: "More ...", icon: MoreHorizontal, href: "#" }
