@@ -4,14 +4,14 @@
 
 import Navbar from "../../../components/Navbar";
 import Background from "../../../components/Background";
-import Arma3 from "../../../components/Games/Arma3";
+import Arma3Servers from "../../../components/Games/Arma3";
 import Footer from "../../../components/Footer";
 
 export default function Home() {
   return (
     <Background>
       <Navbar />
-        <Arma3 />
+        <Arma3Servers />
       <Footer />
     </Background>
   );

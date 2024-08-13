@@ -1,13 +1,27 @@
-// app/components/Status/Games.tsx
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Server, Users, Signal, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 
-const gameConfigs = {
+type GameConfig = {
+  name: string;
+  endpoint: string;
+};
+
+type GameConfigs = {
+  [key: string]: GameConfig;
+};
+
+type ServerInfo = {
+  server_name: string;
+  status: string;
+  players: number;
+  game: string;
+};
+
+const gameConfigs: GameConfigs = {
   arma3: {
     name: "Arma 3",
     endpoint: "/v2/battlemetrics/arma3/servers",
@@ -19,7 +33,11 @@ const gameConfigs = {
   // Add more games here in the future
 };
 
-const ServerCard = ({ server, gameIcon }: { server: any, gameIcon: any }) => (
+type ServerCardProps = {
+  server: ServerInfo;
+};
+
+const ServerCard: React.FC<ServerCardProps> = ({ server }) => (
   <motion.div 
     className="bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-[#d6c8a6] p-6"
     initial={{ opacity: 0, y: 20 }}
@@ -40,7 +58,6 @@ const ServerCard = ({ server, gameIcon }: { server: any, gameIcon: any }) => (
         <span className="text-white">{server.players}</span>
       </div>
     </div>
-    <div className="absolute top-2 right-2 text-2xl" title={gameConfigs[server.game].name}>{gameIcon}</div>
   </motion.div>
 );
 
@@ -63,10 +80,10 @@ const SkeletonServerCard = () => (
   </div>
 );
 
-const GameServersStatus = () => {
-  const [servers, setServers] = useState({});
+const GameServersStatus: React.FC = () => {
+  const [servers, setServers] = useState<{ [key: string]: ServerInfo[] }>({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -78,12 +95,16 @@ const GameServersStatus = () => {
           const response = await fetch(`http://127.0.0.1:8000${config.endpoint}`);
           if (!response.ok) throw new Error(`Failed to fetch ${game} servers`);
           const data = await response.json();
-          return [game, data.map(server => ({ ...server, game }))];
+          return [game, data.map((server: ServerInfo) => ({ ...server, game }))];
         });
         const results = await Promise.all(gamePromises);
         setServers(Object.fromEntries(results));
-      } catch (err) {
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setLoading(false);
       }
@@ -92,7 +113,7 @@ const GameServersStatus = () => {
     fetchServers();
   }, []);
 
-  const filteredServers = Object.entries(servers).reduce((acc, [game, gameServers]) => {
+  const filteredServers = Object.entries(servers).reduce<{ [key: string]: ServerInfo[] }>((acc, [game, gameServers]) => {
     acc[game] = gameServers.filter(server => 
       server.server_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -134,7 +155,7 @@ const GameServersStatus = () => {
               <h3 className="text-3xl font-bold mb-8 text-[#d6c8a6]">{gameConfigs[game].name}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 {gameServers.map((server, index) => (
-                  <ServerCard key={index} server={server} gameIcon={gameConfigs[game].icon} />
+                  <ServerCard key={index} server={server} />
                 ))}
               </div>
             </div>
