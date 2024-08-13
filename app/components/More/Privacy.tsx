@@ -1,32 +1,38 @@
-// app/components/More/Privacy.tsx
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Dispatch, SetStateAction } from 'react';
 import { motion } from 'framer-motion';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Shield, UserPlus, Database, Lock, Eye, FileText, List, Calendar, Info } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-const privacyItems = [
+type PrivacyItem = {
+  id: string;
+  title: string;
+  content: string;
+  icon: JSX.Element;
+  tooltip: string;
+};
+
+const privacyItems: PrivacyItem[] = [
   {
     id: "collection",
     title: "1. Information We Collect",
@@ -71,7 +77,12 @@ const privacyItems = [
   }
 ];
 
-const TableOfContents = ({ items, onItemClick }) => (
+type TableOfContentsProps = {
+  items: PrivacyItem[];
+  onItemClick: (id: string) => void;
+};
+
+const TableOfContents: React.FC<TableOfContentsProps> = ({ items, onItemClick }) => (
   <div className="mb-6">
     <h3 className="text-xl font-bold mb-4 text-[#d6c8a6]">Table of Contents</h3>
     <ul className="space-y-2">
@@ -90,7 +101,11 @@ const TableOfContents = ({ items, onItemClick }) => (
   </div>
 );
 
-const FullDocument = ({ items }) => (
+type FullDocumentProps = {
+  items: PrivacyItem[];
+};
+
+const FullDocument: React.FC<FullDocumentProps> = ({ items }) => (
   <div className="space-y-6">
     {items.map((item) => (
       <div key={item.id}>
@@ -101,12 +116,12 @@ const FullDocument = ({ items }) => (
   </div>
 );
 
-const PrivacyPolicy = () => {
-  const [activeTab, setActiveTab] = useState("full");
-  const [activeAccordionItem, setActiveAccordionItem] = useState(null);
+const PrivacyPolicy: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>("full");
+  const [activeAccordionItem, setActiveAccordionItem] = useState<string | null>(null);
   const lastUpdated = "2024-08-12";
 
-  const handleTableOfContentsClick = (id) => {
+  const handleTableOfContentsClick = (id: string) => {
     setActiveTab("full");
     setActiveAccordionItem(id);
   };
@@ -151,8 +166,8 @@ const PrivacyPolicy = () => {
                     type="single" 
                     collapsible 
                     className="w-full"
-                    value={activeAccordionItem}
-                    onValueChange={setActiveAccordionItem}
+                    value={activeAccordionItem ?? undefined}
+                    onValueChange={(value) => setActiveAccordionItem(value)}
                   >
                     {privacyItems.map((item) => (
                       <AccordionItem key={item.id} value={item.id}>
