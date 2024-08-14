@@ -1,7 +1,6 @@
 // app/components/Chat/Widget.tsx
 
 'use client';
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
@@ -15,14 +14,6 @@ type Message = {
 };
 
 type Server = 'zeus' | 'lib' | 'sog';
-
-const botResponses = [
-  "Roger that, soldier! How can Delta CO assist you today?",
-  "Affirmative. What's your situation, over?",
-  "Copy that. What intel do you need about our Arma 3 servers?",
-  "This is Delta CO HQ. What's your mission request?",
-  "Standing by for your transmission. What can we help with?",
-];
 
 const serverInfo: Record<Server, string> = {
   zeus: "Our Zeus Ops Server offers dynamic, mission-based gameplay crafted by skilled Game Masters.",
@@ -66,8 +57,7 @@ const ChatWidget = () => {
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      const initialMessage = botResponses[Math.floor(Math.random() * botResponses.length)];
-      setMessages([{ text: initialMessage, isUser: false }]);
+      handleSendMessage("Hello", true);
     }
   }, [isOpen, messages.length]);
 
@@ -77,14 +67,32 @@ const ChatWidget = () => {
     }
   }, [messages]);
 
-  const handleSendMessage = () => {
-    if (message.trim()) {
-      setMessages(prev => [...prev, { text: message, isUser: true }]);
+  const handleSendMessage = async (text: string, isInitial: boolean = false) => {
+    if (text.trim()) {
+      if (!isInitial) {
+        setMessages(prev => [...prev, { text, isUser: true }]);
+      }
       setMessage('');
-      setTimeout(() => {
-        const botReply = "Understood, soldier. I'm processing your request. Stand by for further instructions.";
-        setMessages(prev => [...prev, { text: botReply, isUser: false }]);
-      }, 1000);
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/v2/chatme/ask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          body: text,
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setMessages(prev => [...prev, { text: data.answer, isUser: false }]);
+      } catch (error) {
+        console.error('Error:', error);
+        setMessages(prev => [...prev, { text: "Sorry, I'm having trouble connecting right now. Please try again later.", isUser: false }]);
+      }
     }
   };
 
@@ -125,11 +133,11 @@ const ChatWidget = () => {
                   placeholder="Type your message, soldier..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="flex-grow mr-2 bg-[#2a2a2a] text-white border-[#d6c8a6] placeholder-[#a0a0a0] text-[16px]" // Added text-[16px] to prevent zooming on mobile
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  className="flex-grow mr-2 bg-[#2a2a2a] text-white border-[#d6c8a6] placeholder-[#a0a0a0] text-[16px]"
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(message)}
                 />
                 <Button 
-                  onClick={handleSendMessage} 
+                  onClick={() => handleSendMessage(message)} 
                   className="bg-[#d6c8a6] text-black hover:bg-[#f0e6ce] min-w-[40px] flex items-center justify-center"
                 >
                   <Send className="h-4 w-4" />
