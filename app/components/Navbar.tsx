@@ -26,7 +26,7 @@ const menuItems = [
       { name: "Arma 3", icon: Globe, href: "/delta/games/arma3" },
       { name: "Project Zomboid", icon: Skull, href: "/delta/games/pz" },
       { name: "Minecraft", icon: Blocks, href: "/minecraft" },
-      { name: "More ...", icon: MoreHorizontal, href: "#" }
+      { name: "More ...", icon: MoreHorizontal, href: "/delta/more" }
     ]
   },
   {
@@ -46,7 +46,7 @@ const menuItems = [
       { name: "Status", icon: Activity, href: "/delta/status" },
       { name: "Terms of Service", icon: FileText, href: "/delta/tos" },
       { name: "Privacy Policy", icon: Lock, href: "/delta/privacy" },
-      { name: "More", icon: Info, href: "/more" }
+      { name: "More", icon: Info, href: "/delta/more" }
     ]
   },
   {
