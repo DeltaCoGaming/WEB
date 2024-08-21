@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Russo_One } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const russoOne = Russo_One({
+  subsets: ["latin"],
+  weight: "400", // Russo One only has one weight
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deltacogaming.win"),
@@ -117,7 +121,7 @@ export default function RootLayout({
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={russoOne.className}>{children}</body>
     </html>
   );
 }

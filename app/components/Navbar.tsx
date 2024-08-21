@@ -1,12 +1,9 @@
-// app/components/Navbar.tsx
-
 "use client";
 import React, { useState } from "react";
 import {
   Gamepad2,
   Menu,
   X,
-  Search,
   Bell,
   Play,
   Github,
@@ -82,20 +79,9 @@ const menuItems = [
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isSearchActive, setIsSearchActive] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSearchSubmit = () => {
-    console.log("Search for:", searchQuery);
-    // Implement your search logic here
   };
 
   const menuVariants = {
@@ -142,13 +128,13 @@ const Navbar = () => {
   return (
     <nav className="bg-transparent py-4 px-6 relative">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center space-x-2">
+        <a href="/" className="flex items-center space-x-2">
           <Gamepad2 className="h-8 w-8 text-[#d6c8a6]" />
           <span className="text-2xl font-bold text-[#d6c8a6]">DELTA CO</span>
           <span className="text-sm text-white bg-gray-700 px-2 py-1 rounded">
             v1.0.0
           </span>
-        </div>
+        </a>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-4">
@@ -170,19 +156,6 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ))}
-
-          {/* Search Bar */}
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyPress={(e) => e.key === "Enter" && handleSearchSubmit()}
-              className="bg-[#2c2c2c] text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#d6c8a6] w-40 transition-all duration-300 focus:w-64"
-            />
-            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#d6c8a6] h-5 w-5" />
-          </div>
 
           {/* Notification Bell */}
           <button className="text-white hover:text-[#d6c8a6] transition-colors duration-200">
@@ -213,12 +186,6 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden flex items-center space-x-4">
-          <button
-            className="text-white hover:text-[#d6c8a6] transition-colors duration-200"
-            onClick={() => setIsSearchActive(!isSearchActive)}
-          >
-            <Search className="h-6 w-6" />
-          </button>
           <motion.button
             onClick={toggleMobileMenu}
             className="text-white focus:outline-none"
@@ -255,7 +222,7 @@ const Navbar = () => {
           >
             <div className="flex flex-col h-full overflow-y-auto">
               <div className="flex justify-between items-center p-4 border-b border-[#3a3a3a]">
-                <div className="flex items-center space-x-2">
+                <a href="/" className="flex items-center space-x-2">
                   <Gamepad2 className="h-8 w-8 text-[#d6c8a6]" />
                   <span className="text-2xl font-bold text-[#d6c8a6]">
                     DELTA CO
@@ -263,7 +230,7 @@ const Navbar = () => {
                   <span className="text-sm text-white bg-gray-700 px-2 py-1 rounded">
                     v1.0.0
                   </span>
-                </div>
+                </a>
                 <motion.button
                   onClick={toggleMobileMenu}
                   className="text-white focus:outline-none"
@@ -273,20 +240,6 @@ const Navbar = () => {
                 </motion.button>
               </div>
               <motion.div variants={listVariants} className="flex-grow">
-                {isSearchActive && (
-                  <div className="p-4">
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      value={searchQuery}
-                      onChange={handleSearchChange}
-                      onKeyPress={(e) =>
-                        e.key === "Enter" && handleSearchSubmit()
-                      }
-                      className="bg-[#2c2c2c] text-white px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#d6c8a6] w-full"
-                    />
-                  </div>
-                )}
                 <Accordion type="single" collapsible className="w-full">
                   {menuItems.map((item, index) => (
                     <motion.div key={index} variants={itemVariants}>
