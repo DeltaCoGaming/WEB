@@ -3,7 +3,7 @@
 import Navbar from "../../components/Navbar";
 import Background from "../../components/Background";
 import TermsOfService from "../../components/More/Terms";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/home/Footer";
 
 export default function Home() {
   return (

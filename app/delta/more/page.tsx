@@ -5,7 +5,7 @@
 import Navbar from "../../components/Navbar";
 import Background from "../../components/Background";
 import MoreEtc from "../../components/More/MoreEtc";
-import Footer from "../../components/Footer";
+import Footer from "../../../components/home/Footer";
 
 export default function Home() {
   return (

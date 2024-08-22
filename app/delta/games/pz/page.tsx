@@ -5,7 +5,7 @@
 import Navbar from "../../../components/Navbar";
 import Background from "../../../components/Background";
 import ProjectZomboidServers from "../../../components/Games/Project";
-import Footer from "../../../components/Footer";
+import Footer from "../../../../components/home/Footer";
 
 export default function Home() {
   return (
