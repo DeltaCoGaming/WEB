@@ -75,7 +75,7 @@ const ChatWidget = () => {
       setMessage('');
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/v2/chatme/ask', {
+        const response = await fetch('http://0.0.0.0:55003/v2/chatme/ask', {
           method: 'POST',
           headers: {
             'Content-Type': 'text/plain',
