@@ -1,8 +1,6 @@
-// app/components/More/Roadmap.tsx
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +15,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-// Define the structure for a roadmap item
 type RoadmapItem = {
   id: string;
   title: string;
@@ -27,36 +24,6 @@ type RoadmapItem = {
   category: string;
 };
 
-// Sample roadmap data - easily modifiable
-const roadmapData: RoadmapItem[] = [
-  {
-    id: '1',
-    title: 'New Zeus Mission Editor',
-    description: 'Advanced tools for creating dynamic missions with ease.',
-    status: 'in-progress',
-    date: '2024-Q3',
-    category: 'Features'
-  },
-  {
-    id: '2',
-    title: 'Enhanced Vehicle Physics',
-    description: 'More realistic vehicle handling and damage model.',
-    status: 'planned',
-    date: '2024-Q4',
-    category: 'Gameplay'
-  },
-  {
-    id: '3',
-    title: 'Community Mod Integration',
-    description: 'Seamless integration of popular community-made mods.',
-    status: 'completed',
-    date: '2024-Q2',
-    category: 'Modding'
-  },
-  // Add more items as needed
-];
-
-// Status icons and colors
 const statusConfig = {
   'planned': { icon: <Circle className="w-4 h-4" />, color: 'text-blue-400' },
   'in-progress': { icon: <Clock className="w-4 h-4" />, color: 'text-yellow-400' },
@@ -64,8 +31,29 @@ const statusConfig = {
 };
 
 const Roadmap = () => {
+  const [roadmapData, setRoadmapData] = useState<RoadmapItem[]>([]);
   const [filter, setFilter] = useState('all');
-  const categories = ['All', ...new Set(roadmapData.map(item => item.category))];
+
+  useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_ROADMAP_URL;
+
+    if (!apiUrl) {
+      console.error("The ROADMAP_URL environment variable is not defined.");
+      return;
+    }
+
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch roadmap data.");
+        }
+        return response.json();
+      })
+      .then((data) => setRoadmapData(data))
+      .catch((error) => console.error("Error fetching roadmap data:", error));
+  }, []);
+
+  const categories = ['All', ...Array.from(new Set(roadmapData.map(item => item.category)))];
 
   const filteredData = roadmapData.filter(item => 
     filter === 'all' || item.category.toLowerCase() === filter.toLowerCase()
