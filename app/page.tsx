@@ -4,8 +4,8 @@ import Navbar from "./components/Navbar";
 import Background from "./components/Background";
 import HeroSection from "./components/Hero";
 import WhatWeDo from "./components/WhatweDo";
-import ChatWidget from "./components/Chat/Widget"
 import Footer from "./components/Footer";
+import ChatWidget from "@/components/main/chat/Chat-Widget";
 
 export default function Home() {
   return (

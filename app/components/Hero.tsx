@@ -88,12 +88,13 @@ const HeroCard = () => {
               </div>
             </div>
             <div className="relative h-64 md:h-auto md:w-1/2">
-              <Image 
+            <Image 
                 src="/Your paragraph text logo.png" 
                 alt="Delta Co Gaming Action" 
-                layout="fill" 
-                objectFit="cover"
+                fill
+                style={{ objectFit: 'cover' }}
               />
+
               <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold mb-2 text-[#d6c8a6]">Featured Games</h3>
