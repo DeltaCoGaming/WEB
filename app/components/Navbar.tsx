@@ -55,7 +55,7 @@ const menuItems = [
     icon: Users,
     items: [
       { name: "Forums", icon: MessageSquare, href: "/forums" },
-      { name: "Events", icon: Calendar, href: "/events" },
+      { name: "Events", icon: Calendar, href: "/delta/morepages/events" },
       { name: "Leaderboards", icon: Trophy, href: "/leaderboards" },
       { name: "Partners", icon: Users2, href: "/delta/partners" },
     ],
